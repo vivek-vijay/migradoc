@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>My Headache Diary</h1>
+    {% for event in events.items %}
+        <article class="media content-section">
+              <div class="media-body">
+                    <div class="article-metadata">
+                          <h5><a class="article-title" href="{{ url_for('events.event', event_id=event.id) }}">{{ event.date.strftime('%d/%m/%Y') }}</a></h5>
+                    </div>
+              <p class="article-content"> Pain: {{ event.pain }}</p>
+              <p class="article-content"> Nausea/vomiting: {{ event.nv }}</p>
+              <p class="article-content"> Aversion to light/sound: {{ event.phonophoto }}</p>
+              <p class="article-content"> Ability to continue regular activities: {{ event.adls }}</p>
+              <p class="article-content"> Relation to menstrual cycle: {{ event.period }}</p>
+              <p class="article-content"> Treatment taken: {{ event.acutetx }}</p>
+              <p class="article-content"> Preventative medication: {{ event.prophylactic }}</p>
+              <p class="article-content"> Potential triggers: {{ event.triggers }}</p>
+              </div>
+        </article>
+    {% endfor %}
+    {% for page_num in events.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if events.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('events.headache_diary', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('events.headache_diary', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

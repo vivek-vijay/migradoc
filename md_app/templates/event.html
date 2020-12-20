@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Headache event</h1>
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+            <h5 class="article-title">{{ event.date.strftime('%d/%m/%Y') }}</h5>
+        </div>
+            <div class="article-metadata">
+            <p class="article-content"> Pain: {{ event.pain }}</p>
+            <p class="article-content"> Nausea/vomiting: {{ event.nv }}</p>
+            <p class="article-content"> Aversion to light/sound: {{ event.phonophoto }}</p>
+            <p class="article-content"> Ability to continue regular activities: {{ event.adls }}</p>
+            <p class="article-content"> Relation to menstrual cycle: {{ event.period }}</p>
+            <p class="article-content"> Treatment taken: {{ event.acutetx }}</p>
+            <p class="article-content"> Preventative medication: {{ event.prophylactic }}</p>
+            <p class="article-content"> Potential triggers: {{ event.triggers }}</p>
+            </div>
+            <div>
+                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('events.update_event', event_id=event.id) }}">
+                     Update
+                 </a>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">
+                      Delete
+                  </button>
+            </div>
+        </div>
+    </article>
+<!-- Modal -->
+     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <form action="{{ url_for('events.delete_event', event_id=event.id) }}" method="POST">
+               <input class="btn btn-danger" type="submit" value="Delete">
+             </form>
+           </div>
+         </div>
+       </div>
+     </div>
+{% endblock content %}
