@@ -1,4 +1,3 @@
-from datetime import date
 from md_app import db, login_manager
 from flask import current_app
 from flask_login import UserMixin
@@ -16,6 +15,30 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     # age = db.Column(db.Integer, nullable=False, default=0)
+    events = db.relationship('HeadacheEvent', backref='migraineur', lazy=True)
+    # medicalHx = db.relationship('MedicalHx', backref='migraineur', lazy=True)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serialiser(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serialiser(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}')"
+
+
+"""
+class MedicalHx(db.Model):
+    pass
+    id = db.Column(db.Integer, primary_key=True)
     gender = db.Column(db.Integer, nullable=False, default=0)
     diagnosis = db.Column(db.Integer, nullable=False, default=0)
     # 0=no confirmed dx, 1=episodic migraine w/ aura etc., as dropdown?
@@ -36,47 +59,53 @@ class User(db.Model, UserMixin):
     # 0 = non/ex-smoker, 1 = current smoker
     familyhx = db.Column(db.Integer, nullable=False, default=0)
     # 0 = no fhx, 1 = positive fhx
-    events = db.relationship('HeadacheEvent', backref='migraineur', lazy=True)
-
-    def get_reset_token(self, expires_sec=1800):
-        s = Serialiser(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
-
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serialiser(current_app.config['SECRET_KEY'])
-        try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-        return User.query.get(user_id)
-
-    def __repr__(self):
-        return f"User('{self.username}', '{self.diagnosis}')"
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+"""
 
 
 class HeadacheEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, nullable=False, default=date.today)
-    pain = db.Column(db.Integer, nullable=False)
-    # 0-10 scale
-    nv = db.Column(db.String, nullable=False)
-    # 0 = neither, 1 = nausea, 2 = vom, 3 = both
-    phonophoto = db.Column(db.String, nullable=False)
-    # 0 = neither, 1 = phono, 2 = photo, 3 = both
-    adls = db.Column(db.String, nullable=False, default="Able to continue with activities")
-    # 0 = not affected, 1 = interrupted
-    period = db.Column(db.String, nullable=True, default="Not within -2 to +3 days of start of period")
+    startDate = db.Column(db.DateTime, nullable=True)
+    endDate = db.Column(db.DateTime, nullable=True)
+    pain = db.Column(db.Integer)
+    nv = db.Column(db.String)
+    phonophoto = db.Column(db.String)
+    adls = db.Column(db.String)
+    period = db.Column(db.String)
     # Null if User.gender = 1 (Male)
-    # 0 = , 1 = within
-    acutetx = db.Column(db.String, nullable=False)
-    # 0=none, 1=paracetamol only, 2=NSAID only etc. as a dropdown?
-    prophylactic = db.Column(db.String, nullable=False, default=0)
-    # default=User.prophylacticCurrent
-    prophylacticDose = db.Column(db.Integer, nullable=True)
-    triggers = db.Column(db.Integer, nullable=False)
-    # Potential triggers, 0=nil, 1=disturbed sleep etc.
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    acutetx1 = db.Column(db.String(40), nullable=True)
+    acutetx2 = db.Column(db.String(40), nullable=True)
+    acutetx3 = db.Column(db.String(40), nullable=True)
+    acutetxSuccess = db.Column(db.Integer, nullable=True)
+    prophylactic = db.Column(db.String(40), nullable=True)
+    prophylacticDose = db.Column(db.String(10), nullable=True)
+    triggers = db.Column(db.String(40), nullable=True)
+    notes = db.Column(db.Text, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f"HeadacheEvent('{self.date}')"
+        return f"HeadacheEvent('{self.pain}')"
+
+
+"""
+class AcuteTx(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    acutetx = db.Column(db.String)
+    dose = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f"AcuteTx('{self.acutetx}: {self.dose}')"
+
+
+class Prophylactic(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    prophylactic = db.Column(db.String)
+    dose = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f"Prophylactic('{self.prophylactic}: {self.dose}')"
+
+
+class PsychScores(db.Model):
+    pass
+"""

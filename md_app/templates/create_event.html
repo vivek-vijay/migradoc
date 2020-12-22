@@ -6,16 +6,29 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">{{ legend }}</legend>
             <div class="form-group">
-                {{ form.date.label(class="form-control-label") }}
-                {% if form.date.errors %}
-                    {{ form.date(class="form-control form-control-lg is-invalid") }}
+                {{ form.startDate.label(class="form-control-label") }}
+                {% if form.startDate.errors %}
+                    {{ form.startDate(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
-                        {% for error in form.date.errors %}
+                        {% for error in form.startDate.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.date(class="form-control form-control-lg") }}
+                    {{ form.startDate(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.endDate.label(class="form-control-label") }}
+                {% if form.endDate.errors %}
+                    {{ form.endDate(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.endDate.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.endDate(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
             <div class="form-group">
@@ -84,16 +97,55 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.acutetx.label(class="form-control-label") }}
-                {% if form.acutetx.errors %}
-                    {{ form.acutetx(class="form-control form-control-lg is-invalid") }}
+                {{ form.acutetx1.label(class="form-control-label") }}
+                {% if form.acutetx1.errors %}
+                    {{ form.acutetx1(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
-                        {% for error in form.acutetx.errors %}
+                        {% for error in form.acutetx1.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.acutetx(class="form-control form-control-lg") }}
+                    {{ form.acutetx1(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.acutetx2.label(class="form-control-label") }}
+                {% if form.acutetx2.errors %}
+                    {{ form.acutetx2(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.acutetx2.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.acutetx2(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.acutetx3.label(class="form-control-label") }}
+                {% if form.acutetx3.errors %}
+                    {{ form.acutetx3(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.acutetx3.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.acutetx3(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.acutetxSuccess.label(class="form-control-label") }}
+                {% if form.acutetxSuccess.errors %}
+                    {{ form.acutetxSuccess(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.acutetxSuccess.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.acutetxSuccess(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
             <div class="form-group">
@@ -110,6 +162,19 @@
                 {% endif %}
             </div>
             <div class="form-group">
+                {{ form.prophylacticDose.label(class="form-control-label") }}
+                {% if form.prophylacticDose.errors %}
+                    {{ form.prophylacticDose(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.prophylacticDose.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.prophylacticDose(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
                 {{ form.triggers.label(class="form-control-label") }}
                 {% if form.triggers.errors %}
                     {{ form.triggers(class="form-control form-control-lg is-invalid") }}
@@ -120,6 +185,19 @@
                     </div>
                 {% else %}
                     {{ form.triggers(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.notes.label(class="form-control-label") }}
+                {% if form.notes.errors %}
+                    {{ form.notes(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.notes.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.notes(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>

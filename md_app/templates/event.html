@@ -4,7 +4,11 @@
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-            <h5 class="article-title">{{ event.date.strftime('%d/%m/%Y') }}</h5>
+                {% if event.startDate == event.endDate %}
+                    <h5 class="article-title">{{ event.startDate.strftime('%d/%m/%Y') }}</h5>
+                {% else %}
+                    <h5 class="article-title"> {{ event.startDate.strftime('%d/%m/%Y') }} - {{ event.endDate.strftime('%d/%m/%Y') }}</h5>
+                {% endif %}
         </div>
             <div class="article-metadata">
             <p class="article-content"> Pain: {{ event.pain }}</p>
@@ -12,9 +16,11 @@
             <p class="article-content"> Aversion to light/sound: {{ event.phonophoto }}</p>
             <p class="article-content"> Ability to continue regular activities: {{ event.adls }}</p>
             <p class="article-content"> Relation to menstrual cycle: {{ event.period }}</p>
-            <p class="article-content"> Treatment taken: {{ event.acutetx }}</p>
-            <p class="article-content"> Preventative medication: {{ event.prophylactic }}</p>
+            <p class="article-content"> Treatment(s) taken:{% if event.acutetx1 == 'None' and event.acutetx2 == 'None' and event.acutetx3 == 'None' %} None {% endif %}{% if event.acutetx1 != 'None' %} {{ event.acutetx1 }} {% endif %}{% if event.acutetx2 != 'None' %} {{ event.acutetx2 }} {% endif %}{% if event.acutetx3 != 'None' %} {{ event.acutetx3 }} {% endif %}</p>
+            <p class="article-content"> Did treatment help? {{ event.acutetxSuccess }}</p>
+            <p class="article-content"> Preventative medication: {{ event.prophylactic }} {{ event.prophylacticDose }}</p>
             <p class="article-content"> Potential triggers: {{ event.triggers }}</p>
+            <p class="article-content"> Notes: {{ event.notes }}</p>
             </div>
             <div>
                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('events.update_event', event_id=event.id) }}">
